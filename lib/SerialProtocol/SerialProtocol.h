@@ -1,19 +1,20 @@
 #ifndef SERIAL_PROTOCOL_H
 #define SERIAL_PROTOCOL_H
 
-#include "TransportLayer.h"
-#include "SerialTransport.h"
+#include <HardwareSerial.h>
 #include "Packet.h"
 #include "Packetizer.h"
 #include "Parser.h"
 #include "Dispatcher.h"
 
 /**
- * Classe que integra todos os componentes do protocolo serial
+ * Classe que implementa o protocolo serial
+ * Trabalha diretamente com HardwareSerial do ESP32
  */
 class SerialProtocol {
 public:
-    SerialProtocol(TransportLayer& transport);
+    // Construtor recebe uma referência ao objeto HardwareSerial a ser usado
+    SerialProtocol(HardwareSerial& serial);
     
     // Inicializa o protocolo com a velocidade especificada
     void begin(unsigned long baud);
@@ -28,13 +29,13 @@ public:
     void update();
     
 private:
-    TransportLayer& _transport;
-    Packetizer _packetizer;
-    Parser _parser;
-    Dispatcher _dispatcher;
+    HardwareSerial& serial;
+    Packetizer packetizer;
+    Parser parser;
+    Dispatcher dispatcher;
     
     // Buffer para montagem de pacotes
-    uint8_t _txBuffer[MAX_PAYLOAD_SIZE + 10]; // Payload + overhead
+    uint8_t txBuffer[MAX_PAYLOAD_SIZE + 10]; // Payload + overhead
 };
 
 #endif // SERIAL_PROTOCOL_H

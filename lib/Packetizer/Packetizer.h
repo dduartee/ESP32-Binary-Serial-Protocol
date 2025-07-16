@@ -3,8 +3,10 @@
 
 #include <stdint.h>
 #include <stddef.h>
-#include "CRC16.h"
 #include "Packet.h"
+#include "CRC16.h"
+#include "CRC.h"
+
 
 /**
  * Classe responsável por montar pacotes para envio
@@ -20,7 +22,7 @@ public:
     static uint16_t packetSize(uint8_t payloadLength);
     
 private:
-    CRC16 _crc;
+    CRC16 crc;
 };
 
 #endif // PACKETIZER_H

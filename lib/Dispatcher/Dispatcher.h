@@ -20,7 +20,7 @@ public:
     void dispatch(const Packet &packet);
     
 private:
-    std::map<uint8_t, Handler> _handlers;
+    std::map<uint8_t, Handler> handlers;
 };
 
 #endif // DISPATCHER_H

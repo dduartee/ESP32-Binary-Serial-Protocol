@@ -22,12 +22,13 @@ bool Packetizer::buildPacket(uint8_t type, const uint8_t *payload, uint8_t lengt
     }
     
     // Calcula CRC sobre tipo, length e payload
-    _crc.init();
-    _crc.update(type);
-    _crc.update(length);
-    _crc.update(payload, length);
-    
-    uint16_t crcValue = _crc.getValue();
+    // Reinicia cálculo de CRC
+    crc.restart();
+    crc.add(type);
+    crc.add(length);
+    crc.add(payload, length);
+
+    uint16_t crcValue = crc.calc();
     
     // Adiciona CRC (2 bytes - MSB primeiro)
     outBuf[index++] = (crcValue >> 8) & 0xFF;

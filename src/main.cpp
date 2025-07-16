@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include "SerialProtocol.h"
-
+#include "PayloadHelper.h"
 // Define os tipos de pacotes que serão usados
 enum PacketTypes {
     TYPE_SENSOR_DATA = 1,
@@ -8,11 +8,8 @@ enum PacketTypes {
     TYPE_ACKNOWLEDGE = 3
 };
 
-// Cria uma instância do transporte serial usando Serial2 do ESP32
-SerialTransport transport(Serial2);
-
-// Cria o protocolo usando o transporte
-SerialProtocol protocol(transport);
+// Cria o protocolo usando diretamente Serial2 do ESP32
+SerialProtocol protocol(Serial2);
 
 // Handler para pacotes de dados de sensor
 void handleSensorData(const uint8_t* payload, uint8_t length) {
@@ -77,12 +74,9 @@ void loop() {
         int16_t temp = 255;   // 25.5°C * 10
         int16_t humid = 652;  // 65.2% * 10
         
-        // Converte para bytes no payload
-        sensorPayload[0] = temp >> 8;
-        sensorPayload[1] = temp & 0xFF;
-        sensorPayload[2] = humid >> 8;
-        sensorPayload[3] = humid & 0xFF;
-        
+        PayloadHelper payloadHelper(sensorPayload);
+        payloadHelper.compile(temp, humid);
+
         // Envia pacote
         if (protocol.sendPacket(TYPE_SENSOR_DATA, sensorPayload, sizeof(sensorPayload))) {
             Serial.println("Dados de sensor enviados!");

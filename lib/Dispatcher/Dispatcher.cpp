@@ -1,13 +1,13 @@
 #include "Dispatcher.h"
 
 void Dispatcher::onEvent(uint8_t type, Handler handler) {
-    _handlers[type] = handler;
+    handlers[type] = handler;
 }
 
 void Dispatcher::dispatch(const Packet &packet) {
-    auto it = _handlers.find(packet.type);
+    auto it = handlers.find(packet.type);
     
-    if (it != _handlers.end()) {
+    if (it != handlers.end()) {
         // Chama o handler registrado com o payload e length
         it->second(packet.payload, packet.length);
     }
