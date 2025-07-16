@@ -21,6 +21,11 @@ static void test_sensor_data_triggers_ack(void) {
   protocolTx.begin(9600);
   protocolRx.begin(9600);
 
+  // TODO: Implementar reconhecimento do ACK no teste
+  // - Verificar se o ACK é recebido corretamente após envio dos dados do sensor
+  // - Validar o payload do ACK
+  // - Adicionar assertions para garantir que o ACK foi processado
+
   // registra handler igual ao handleSensorData do main.cpp
   protocolRx.onEvent(TYPE_SENSOR_DATA,
                      [&](const uint8_t* payload, uint8_t length) {
