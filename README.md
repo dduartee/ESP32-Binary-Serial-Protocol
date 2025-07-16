@@ -1,4 +1,4 @@
-# ESP32 Binary Packet Serial
+# ESP32 Binary Serial Protocol
 
 Uma biblioteca para comunicação serial binária para ESP32 usando pacotes estruturados. Esta implementação fornece um protocolo de comunicação robusto e eficiente para troca de dados entre dispositivos.
 
